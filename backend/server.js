@@ -1,3 +1,5 @@
+require('dotenv').config();
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const PORT = 5000;
@@ -34,6 +36,8 @@ let employees = [
         "salary": 100000
     }
 ];
+
+mongoose.connect(process.env.MONGO_URI).then(() => console.log('MongoDB connected')).catch(error => console.log(error));
 
 app.get('/', (req, res) => {
     res.json({
@@ -113,12 +117,20 @@ app.put('/api/employee/:id', (req, res) => {
 
 app.delete('/api/employee/:id', (req, res) => {
     const url_id = Number(req.params.id);
+    const result = employees.findIndex(emp => emp.id === url_id);
+    if(result === -1){
+        return res.status(404).json({
+            message: "Data not found.",
+            data: result
+        });
+    }
 
-    
+    const removed_data = employees.splice(result, 1);
 
     res.json({
         message: "Employee deleted successfully",
-        data: url_id
+        data: employees,
+        removed_data: removed_data
     });
 });
 
