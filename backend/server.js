@@ -6,28 +6,28 @@ app.use(express.json());
 let emp_id = 1;
 let employees = [
     {
-        "ID": 1,
+        "id": 1,
         "name": "Sadda",
         "email": "sahil@gmail.com",
         "department": "IT",
         "salary": 100000
     },
     {
-        "ID": 2,
+        "id": 2,
         "name": "Sadda",
         "email": "sahil@gmail.com",
         "department": "IT",
         "salary": 100000
     },
     {
-        "ID": 3,
+        "id": 3,
         "name": "Sadda",
         "email": "sahil@gmail.com",
         "department": "IT",
         "salary": 100000
     },
     {
-        "ID": 4,
+        "id": 4,
         "name": "Sadda",
         "email": "sahil@gmail.com",
         "department": "IT",
@@ -45,7 +45,7 @@ app.post('/api/employee', (req, res) => {
     const {name, email, department, salary} = req.body;
     
     const arr_data = {
-        "ID": emp_id++,
+        "id": emp_id++,
         "name": name,
         "email": email,
         "department": department,
@@ -71,10 +71,10 @@ app.get('/api/employee', (req, res) => {
 
 app.get('/api/employee/:id', (req, res) => {
     const urlID = Number(req.params.id);
-    const result = employees.find(emp => emp.ID == urlID);
+    const result = employees.find(emp => emp.id == urlID);
 
     if(!result){
-        res.status(404).json({
+        return res.status(404).json({
             message: "Data not found",
             data: result
         });
@@ -85,6 +85,41 @@ app.get('/api/employee/:id', (req, res) => {
         data: result
     });
 
+});
+
+app.put('/api/employee/:id', (req, res) => {
+    const url_id = Number(req.params.id);
+    const {name, email, department, salary} = req.body;
+    
+    const result = employees.find(emp => emp.id === url_id);
+    if(!result){
+        return res.status(404).json({
+            message: "Data not found",
+            data: result
+        });
+    }
+
+    result.name = name;
+    result.email = email;
+    result.department = department;
+    result.salary = salary;
+
+    res.json({
+        message: "Employee updated successfully",
+        final_data: result,
+        all_data: employees
+    });
+});
+
+app.delete('/api/employee/:id', (req, res) => {
+    const url_id = Number(req.params.id);
+
+    
+
+    res.json({
+        message: "Employee deleted successfully",
+        data: url_id
+    });
 });
 
 app.listen(PORT, () => {
