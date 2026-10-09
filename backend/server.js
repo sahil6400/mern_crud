@@ -1,4 +1,12 @@
 require('dotenv').config();
+
+const dns = require("dns");
+
+dns.setServers([
+    "8.8.8.8",
+    "1.1.1.1"
+]);
+
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -7,6 +15,7 @@ app.use(express.json());
 const emp_model = require('./model/Employee.js');
 
 let emp_id = 1;
+
 let employees = [
     {
         "id": 1,
@@ -40,7 +49,7 @@ let employees = [
 
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('MongoDB connected')).catch(error => console.log(error));
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { 
     res.json({
         message: "Backend is running"
     });
