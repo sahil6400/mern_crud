@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const employee_schema = new mongoose.Schema({
+const employee_schema = new mongoose.Schema(
+{
     name: {
         type: String,
         required: true
@@ -10,13 +11,19 @@ const employee_schema = new mongoose.Schema({
         required: true
     },
     department: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Departments",
         required: true
     },
     salary: {
         type: Number,
         required: true
     }
-});
+}, 
+{
+    timestamp: true
+}
 
-module.exports = mongoose.model('Employee', employee_schema);
+);
+
+module.exports = mongoose.model('Employees', employee_schema);
