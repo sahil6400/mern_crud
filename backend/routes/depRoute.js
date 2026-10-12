@@ -1,6 +1,7 @@
 const express = require('express');
 const route = express.Router();
 
+const validation = require('../middleware/departmentMiddleware.js');
 const { createDep } = require('../controller/departmentController.js');
 const validation = require('../middleware/departmentMiddleware.js');
 

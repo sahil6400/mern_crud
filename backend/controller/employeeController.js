@@ -1,6 +1,12 @@
 const emp_model = require('../model/Employee.js');
 
 const create_Emp = async (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({
+            message: "Employee form data is required"
+        });
+    }
+
     try{
 
         const emp_form_data = await emp_model.create({
