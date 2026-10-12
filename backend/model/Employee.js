@@ -8,7 +8,8 @@ const employee_schema = new mongoose.Schema(
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     department: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +19,10 @@ const employee_schema = new mongoose.Schema(
     salary: {
         type: Number,
         required: true
+    },
+    image: {
+        type: String,
+        default: null
     }
 }, 
 {

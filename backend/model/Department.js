@@ -4,7 +4,9 @@ const department_model = new mongoose.Schema(
 {
     name: {
         type: String,
-        required: true
+        required: true,
+        uniqure: true,
+        lowercase: true
     },
     description: {
         type: String,

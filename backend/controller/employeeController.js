@@ -7,7 +7,8 @@ const create_Emp = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             department: req.body.department,
-            salary: req.body.salary
+            salary: req.body.salary,
+            image: req.file ? req.file.filename : null
         });
 
         res.json({
