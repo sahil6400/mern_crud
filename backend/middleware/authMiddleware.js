@@ -1,15 +1,36 @@
-const jsw = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const auth_validation = async (req, res, next) => {
 
-    const headers = req.headers.Authentication;
+    try{
 
-    return res.json({
-        message: "Token not found",
-        data: headers
-    });
+        const auth_headers = req.headers.authorization;
+        if(!auth_headers){
+            return res.json({
+                message: "Token not found"
+            });
+        }
 
-    next();
+        const token = auth_headers.split(' ')[1];
+        if(!token){
+            return res.json({
+                message: "Invalid token"
+            });
+        }
+
+        const decoded = await jwt.verify(token, process.env.SECURITY_CODE);
+
+        req.user = decoded;
+
+        next();
+    }catch(err){
+        console.error(err);
+        res.json({
+            message: "Something went wrong",
+            data: err
+        });
+    }
+
 }
 
 module.exports = auth_validation;

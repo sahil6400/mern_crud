@@ -5,6 +5,7 @@ const app = express();
 const PORT = 5000;
 app.use(express.json());
 
+const error_validation = require('./middleware/errorMiddleware.js');
 const empRoute = require('./routes/empRoutes.js');
 const depRoute = require('./routes/depRoute.js');
 const userRoute = require('./routes/userRoute.js');
@@ -20,6 +21,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/api/employee', empRoute);
 app.use('/api/department',depRoute);
 app.use('/api/user',userRoute);
+
+app.use(error_validation);
 
 const start_session = async () => {
     await mongoDB();
